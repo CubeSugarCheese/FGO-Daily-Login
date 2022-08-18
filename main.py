@@ -47,7 +47,7 @@ def main():
 
         for i in range(userNums):
             try:
-                instance = user.user(userIds[i], authKeys[i], secretKeys[i])
+                instance = user.User(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('Loggin into account!')
                 instance.topLogin()
@@ -56,7 +56,9 @@ def main():
                 time.sleep(2)
                 logger.info('Throw daily friend summon!')
                 instance.drawFP()
-                time.sleep(2)
+                time.sleep(3)
+                logger.info("Buy bronze fruit!")
+                instance.buy_bronze_fruit()
             except Exception as ex:
                 logger.error(ex)
 

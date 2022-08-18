@@ -25,47 +25,47 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Daily Bonus - " + main.fate_region,
-                "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
+                "title": "FGO 每日签到 - " + main.fate_region,
+                "description": f"Fate/Grand Order 自动签到.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
                     {
-                        "name": "Level",
+                        "name": "等级",
                         "value": f"{rewards.level}",
                         "inline": True
                     },
                     {
-                        "name": "Tickets",
+                        "name": "呼符",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
                     {
-                        "name": "Saint Quartz",
+                        "name": "圣晶石",
                         "value": f"{rewards.stone}",
                         "inline": True
                     },
                     {
-                        "name": "Login Days",
+                        "name": "连续登录天数",
                         "value": f"{login.login_days}",
                         "inline": True
                     },
                     {
-                        "name": "Total Days",
+                        "name": "总计登录天数",
                         "value": f"{login.total_days}",
                         "inline": True
                     },
                     {
-                        "name": "Total Friend Points",
+                        "name": "总友情点",
                         "value": f"{login.total_fp}",
                         "inline": True
                     },
                     {
-                        "name": "Friend Points",
+                        "name": "友情点增量",
                         "value": f"+{login.add_fp}",
                         "inline": True
                     },
                     {
-                        "name": "Ap Max",
+                        "name": "最大AP",
                         "value": f"{login.act_max}",
                         "inline": True
                     }
@@ -91,7 +91,7 @@ def drawFP(servants, missions) -> None:
     message_mission = ""
     message_servant = ""
 
-    if (len(servants) > 0):
+    if len(servants) > 0:
         servants_atlas = requests.get(
             f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
@@ -101,7 +101,7 @@ def drawFP(servants, missions) -> None:
             svt = svt_dict[servant.objectId]
             message_servant += f"`{svt['name']}` "
 
-    if(len(missions) > 0):
+    if len(missions) > 0:
         for mission in missions:
             message_mission += f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
 
@@ -110,7 +110,7 @@ def drawFP(servants, missions) -> None:
         "embeds": [
             {
                 "title": "FGO Daily Bonus - " + main.fate_region,
-                "description": f"Scheluded Friend Point Fate/Grand Order.\n\n{message_mission}",
+                "description": "Scheluded Friend Point Fate/Grand Order.\n\n",
                 "color": 5750876,
                 "fields": [
                     {
@@ -121,6 +121,38 @@ def drawFP(servants, missions) -> None:
                 ],
                 "thumbnail": {
                     "url": "https://i.imgur.com/LJMPpP8.png"
+                }
+            }
+        ],
+        "attachments": []
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    requests.post(endpoint, json=jsonData, headers=headers)
+
+
+def buy_bronze_fruit(buy_num: int, current_num: int) -> None:
+    endpoint = main.webhook_discord_url
+
+    jsonData = {
+        "content": None,
+        "embeds": [
+            {
+                "title": "FGO 每日签到 - " + main.fate_region,
+                "description": f"自动购买青铜果实{buy_num}个\n\n",
+                "color": 5750876,
+                "fields": [
+                    {
+                        "name": "当前青铜果实数量",
+                        "value": str(current_num),
+                        "inline": False
+                    }
+                ],
+                "thumbnail": {
+                    "url": "https://imgchr.com/i/vruGhd"
                 }
             }
         ],
