@@ -1,5 +1,6 @@
+import httpx
+
 import main
-import requests
 import user
 
 
@@ -16,7 +17,7 @@ def topLogin(data: list) -> None:
     if bonus != "No Bonus":
         messageBonus += f"__{bonus.message}__{nl}```{nl.join(bonus.items)}```"
 
-        if bonus.bonus_name != None:
+        if bonus.bonus_name is not None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
 
         messageBonus += "\n"
@@ -82,7 +83,7 @@ def topLogin(data: list) -> None:
         "Content-Type": "application/json"
     }
 
-    requests.post(endpoint, json=jsonData, headers=headers)
+    httpx.post(endpoint, json=jsonData, headers=headers)
 
 
 def drawFP(servants, missions) -> None:
@@ -92,7 +93,7 @@ def drawFP(servants, missions) -> None:
     message_servant = ""
 
     if len(servants) > 0:
-        servants_atlas = requests.get(
+        servants_atlas = httpx.get(
             f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
@@ -131,7 +132,7 @@ def drawFP(servants, missions) -> None:
         "Content-Type": "application/json"
     }
 
-    requests.post(endpoint, json=jsonData, headers=headers)
+    httpx.post(endpoint, json=jsonData, headers=headers)
 
 
 def buy_bronze_fruit(buy_num: int, current_num: int) -> None:
@@ -150,10 +151,7 @@ def buy_bronze_fruit(buy_num: int, current_num: int) -> None:
                         "value": str(current_num),
                         "inline": False
                     }
-                ],
-                "thumbnail": {
-                    "url": "https://imgchr.com/i/vruGhd"
-                }
+                ]
             }
         ],
         "attachments": []
@@ -163,4 +161,4 @@ def buy_bronze_fruit(buy_num: int, current_num: int) -> None:
         "Content-Type": "application/json"
     }
 
-    requests.post(endpoint, json=jsonData, headers=headers)
+    httpx.post(endpoint, json=jsonData, headers=headers)

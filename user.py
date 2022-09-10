@@ -1,4 +1,5 @@
 # coding: utf-8
+import logging
 import uuid
 import hashlib
 import base64
@@ -103,24 +104,23 @@ class User:
         self.builder_ = ParameterBuilder(user_id, auth_key, secret_key)
         self.data = None
 
-    def Post(self, url):
-        res = fgourl.PostReq(self.s_, url, self.builder_.Build())
+    def post(self, url):
+        res = fgourl.post(self.s_, url, self.builder_.Build())
         self.builder_.Clean()
         return res
 
-    def topLogin(self):
+    def top_login(self):
         DataWebhook = []  # This data will be use in discord webhook!
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
-        userState = (-int(lastAccessTime) >>
-                     2) ^ self.user_id_ & fgourl.data_server_folder_crc_
+        userState = (-int(lastAccessTime) >> 2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
-        data = self.Post(
+        data = self.post(
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
         self.data = data
 
@@ -133,7 +133,7 @@ class User:
 
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 4001:
-                ticket = item['buy_num']
+                ticket = item['num']
                 break
 
         rewards = Rewards(stone, lv, ticket)
@@ -201,7 +201,7 @@ class User:
         else:
             self.builder_.AddParameter('gachaSubId', '0')  # 246
 
-        data = self.Post(
+        data = self.post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
 
         responses = data['response']
@@ -253,15 +253,17 @@ class User:
             if i["itemId"] == 103:
                 bronze_sapling_num = i["num"]
                 break
-        act_max = self.data['cache']['replaced']['userGame'][0]['actMax']
-        act_recover_at = self.data['cache']['replaced']['userGame'][0]['actRecoverAt']
-        now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
+        act_max: int = self.data['cache']['replaced']['userGame'][0]['actMax']
+        act_recover_at: int = self.data['cache']['replaced']['userGame'][0]['actRecoverAt']
+        now_act = int(act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
         buy_num = self.get_buy_num(bronze_sapling_num, now_act)
         if buy_num == 0:
+            logger = logging.getLogger("FGO Daily Login")
+            logger.info("AP/Sapling not enough, skip buy apple!")
             return
-        self.builder_.AddParameter("buy_num", str(buy_num))
+        self.builder_.AddParameter("num", str(buy_num))
         self.builder_.AddParameter("id", "13000000")
-        data = self.Post(f"{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}")
+        data = self.post(f"{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}")
 
         current_num = 0
         for i in data["cache"]["updated"]["userItem"]:
@@ -271,4 +273,4 @@ class User:
         webhook.buy_bronze_fruit(buy_num, current_num)
 
     def topHome(self):
-        self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
+        self.post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')

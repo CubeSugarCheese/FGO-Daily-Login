@@ -1,6 +1,6 @@
 # Thanks to atlas academy for this script!
 # All credits to atlas
-# Github: github.com/atlasacademy
+# GitHub: github.com/atlasacademy
 # Website: atlasacademy.io
 # Api: api.atlasacademy.io
 # Apps: apps.atlasacademy.io
@@ -90,7 +90,7 @@ def get_app_store_ver(region: str):
     return None
 
 
-def get_version(region: str) -> None:
+def get_version(region: str) -> str | None:
     if region not in APP_STORE_URL:
         return None
 

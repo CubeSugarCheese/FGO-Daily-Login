@@ -1,7 +1,9 @@
 import os
-import requests
 import time
 import json
+
+import httpx
+
 import fgourl
 import user
 import coloredlogs
@@ -34,7 +36,7 @@ def get_latest_verCode():
     else:
         endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/JP/VerCode.json"
 
-    response = requests.get(endpoint).text
+    response = httpx.get(endpoint).text
     response_data = json.loads(response)
 
     return response_data['verCode']
@@ -50,15 +52,15 @@ def main():
                 instance = user.User(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('Loggin into account!')
-                instance.topLogin()
+                instance.top_login()
                 time.sleep(2)
                 instance.topHome()
-                time.sleep(2)
-                logger.info('Throw daily friend summon!')
-                instance.drawFP()
                 time.sleep(3)
                 logger.info("Buy bronze fruit!")
                 instance.buy_bronze_fruit()
+                time.sleep(2)
+                logger.info('Throw daily friend summon!')
+                instance.drawFP()
             except Exception as ex:
                 logger.error(ex)
 

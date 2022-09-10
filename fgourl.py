@@ -1,12 +1,14 @@
 import json
 import binascii
-import requests
-import version
-import main
-import CatAndMouseGame
 
-requests.urllib3.disable_warnings()
-session = requests.Session()
+from httpx import Client
+
+import main
+import version
+import CatAndMouseGame
+import httpx
+
+session = httpx.Client()
 session.verify = False
 
 # ===== Game's parameters =====
@@ -33,11 +35,10 @@ def set_latest_assets():
     if region == "NA":
         server_addr_ = "https://game.fate-go.us"
 
-    # Get Latest Version of the data!
+    # Get the Latest Version of the data!
     version_str = version.get_version(region)
-    response = requests.get(
-        server_addr_ + '/gamedata/top?appVer=' + version_str).text
-    response_data = json.loads(response)["response"][0]["success"]
+    response = httpx.get(f"{server_addr_}/gamedata/top?appVer={version_str}", follow_redirects=True)
+    response_data = json.loads(response.text)["response"][0]["success"]
 
     # Set AppVer, DataVer, DateVer
     app_ver_ = version_str
@@ -70,11 +71,11 @@ httpheader = {
 
 
 def NewSession():
-    return requests.Session()
+    return httpx.Client()
 
 
-def PostReq(s, url, data):
-    res = s.post(url, data=data, headers=httpheader, verify=False).json()
+def post(s: Client, url, data):
+    res = s.post(url, data=data, headers=httpheader).json()
     res_code = res['response'][0]['resCode']
 
     if res_code != '00':
