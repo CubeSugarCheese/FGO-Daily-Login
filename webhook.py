@@ -17,7 +17,7 @@ def topLogin(data: list) -> None:
     if bonus != "No Bonus":
         messageBonus += f"__{bonus.message}__{nl}```{nl.join(bonus.items)}```"
 
-        if bonus.bonus_name is not None:
+        if bonus.bonus_name != None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
 
         messageBonus += "\n"
@@ -26,47 +26,47 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO 每日签到 - " + main.fate_region,
-                "description": f"Fate/Grand Order 自动签到.\n\n{messageBonus}",
+                "title": "FGO Daily Bonus - " + main.fate_region,
+                "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
                     {
-                        "name": "等级",
+                        "name": "Level",
                         "value": f"{rewards.level}",
                         "inline": True
                     },
                     {
-                        "name": "呼符",
+                        "name": "Tickets",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
                     {
-                        "name": "圣晶石",
+                        "name": "Saint Quartz",
                         "value": f"{rewards.stone}",
                         "inline": True
                     },
                     {
-                        "name": "连续登录天数",
+                        "name": "Login Days",
                         "value": f"{login.login_days}",
                         "inline": True
                     },
                     {
-                        "name": "总计登录天数",
+                        "name": "Total Days",
                         "value": f"{login.total_days}",
                         "inline": True
                     },
                     {
-                        "name": "总友情点",
+                        "name": "Total Friend Points",
                         "value": f"{login.total_fp}",
                         "inline": True
                     },
                     {
-                        "name": "友情点增量",
+                        "name": "Friend Points",
                         "value": f"+{login.add_fp}",
                         "inline": True
                     },
                     {
-                        "name": "最大AP",
+                        "name": "Ap Max",
                         "value": f"{login.act_max}",
                         "inline": True
                     }
