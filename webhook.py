@@ -4,7 +4,7 @@ import main
 import user
 
 
-def topLogin(data: list) -> None:
+def topLogin(data: list[user.Rewards | user.Login | user.Bonus | str]) -> None:
     endpoint = main.webhook_discord_url
 
     rewards: user.Rewards = data[0]
