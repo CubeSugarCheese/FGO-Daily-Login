@@ -169,14 +169,14 @@ class User:
             items_camp_bonus = []
 
             for i in data['response'][0]['success']['seqLoginBonus'][0]['items']:
-                items.append(f'{i["name"]} x{i["buy_num"]}')
+                items.append(f'{i["name"]} x{i["num"]}')
 
             if 'campaignbonus' in data['response'][0]['success']:
                 bonus_name = data['response'][0]['success']['campaignbonus'][0]['name']
                 bonus_detail = data['response'][0]['success']['campaignbonus'][0]['detail']
 
                 for i in data['response'][0]['success']['campaignbonus'][0]['items']:
-                    items_camp_bonus.append(f'{i["name"]} x{i["buy_num"]}')
+                    items_camp_bonus.append(f'{i["name"]} x{i["num"]}')
             else:
                 bonus_name = None
                 bonus_detail = None
@@ -192,7 +192,7 @@ class User:
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
-        self.builder_.AddParameter('buy_num', '10')
+        self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
 
