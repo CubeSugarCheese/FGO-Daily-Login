@@ -255,7 +255,10 @@ class User:
                 break
         act_max: int = self.data['cache']['replaced']['userGame'][0]['actMax']
         act_recover_at: int = self.data['cache']['replaced']['userGame'][0]['actRecoverAt']
-        now_act = int(act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
+        temp = 0
+        if act_recover_at - mytime.GetTimeStamp() > 0:
+            temp = act_recover_at - mytime.GetTimeStamp()
+        now_act = int(act_max - temp / 300)
         buy_num = self.get_buy_num(bronze_sapling_num, now_act)
         if buy_num == 0:
             logger = logging.getLogger("FGO Daily Login")
