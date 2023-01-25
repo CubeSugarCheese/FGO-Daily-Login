@@ -2,10 +2,10 @@ name: FGO Login System
 
 on:
   workflow_dispatch:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+  #push:
+  #  branches: [master]
+  #pull_request:
+  #  branches: [master]
   schedule:
     - cron: "0 22 * * *"
     - cron: "0 06 * * *"
