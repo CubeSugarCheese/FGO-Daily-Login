@@ -197,9 +197,9 @@ class User:
         self.builder_.AddParameter('shopIdIndex', '1')
 
         if main.fate_region == "NA":
-            self.builder_.AddParameter('gachaSubId', '0')  # 260
+            self.builder_.AddParameter('gachaSubId', '260')  # 260
         else:
-            self.builder_.AddParameter('gachaSubId', '0')  # 246
+            self.builder_.AddParameter('gachaSubId', '246')  # 246
 
         data = self.post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
