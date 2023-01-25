@@ -16,7 +16,7 @@ def GetFormattedNowTime():
 
 
 def GetTimeStamp():
-    return (int)(datetime.now(tz=tz_utc_8).timestamp())
+    return int(datetime.now(tz=tz_utc_8).timestamp())
 
 
 def TimeStampToString(timestamp):
