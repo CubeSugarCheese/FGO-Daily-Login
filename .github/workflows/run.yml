@@ -6,10 +6,10 @@ on:
   #  branches: [master]
   #pull_request:
   #  branches: [master]
-  #schedule:
-    #- cron: "0 22 * * *"
-    #- cron: "0 06 * * *"
-    #- cron: "0 14 * * *"
+  schedule:
+    - cron: "0 22 * * *"
+    - cron: "0 06 * * *"
+    - cron: "0 14 * * *"
 
 jobs:
   build:
