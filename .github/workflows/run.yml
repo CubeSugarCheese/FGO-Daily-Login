@@ -7,9 +7,9 @@ on:
   #pull_request:
   #  branches: [master]
   schedule:
-    - cron: "0 22 * * *"
-    - cron: "0 06 * * *"
-    - cron: "0 14 * * *"
+    - cron: "0 21 * * *" # CST 5:00
+    #- cron: "0 06 * * *" # CST 14:00
+    #- cron: "0 14 * * *" # CST 22:00
 
 jobs:
   build:
